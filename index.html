@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>SCWebIDE - Bridge</title>
+    <!-- https://electronjs.org/docs/tutorial/security#csp-meta-tag -->
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+    <style>
+      body{
+        background:#333; color: #dedede;
+        font-family: sans;
+        font-size: 15px;
+
+      }
+      div#main{
+        width:calc(100% - 1em);
+
+        padding: 0.5em;
+        position:absolute; top: 50%; left:50%;
+        transform: translate(-50%,-50%)
+      }
+      h1{font-size:1.2rem; font-weight: normal; margin:0 0 .5em;}
+      h2{font-size:1rem; font-weight: normal; margin:0 0 .5em;}
+
+      footer{ display: flex; justify-content: space-between;}
+
+      span{font-size: 0.6em; display: flex; align-items: center; justify-content: flex-start; color: red; margin:1em 0; width:100%}
+      span.green{color: green}
+      i{font-style: normal; margin-right:1em}
+      i{
+        display: inline-block;
+        width:1em;
+        height:1em;
+        border-radius:0.5em;
+        background: yellow
+      }
+      span.green i { background: green}
+
+      span{
+        filter: brightness(1);
+        transition: filter 0.8s ease-in-out;
+      }
+      span.blink{
+        filter: brightness(2);
+        transition: filter 0.4s;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="main">
+      <h2>SCWebIDE</h2><h1>Bridge</h1>
+      <footer>
+      <span id="lang"><i></i> sclang</span>
+      <span id="clients"><i></i> browser</span>
+      </footer>
+    </div>
+
+    <script type="text/javascript">
+      var ipcRenderer = require('electron').ipcRenderer;
+      ipcRenderer.on('clients', function (event,msg) {
+        const clients = document.querySelector("#clients")
+        // clients.querySelector("i").innerHTML = n;
+        if(msg.n != undefined){
+          if(msg.n>0) clients.classList.add("green")
+          else clients.classList.remove("green")
+        }
+        if(msg.query){
+          clients.classList.add("blink");
+          setTimeout(()=>clients.classList.remove("blink"),1000)
+        }
+      });
+      ipcRenderer.on('lang', function (event,msg) {
+        const span = document.querySelector("#lang")
+        //clients.querySelector("i").innerHTML = n;
+        if(msg.status != undefined){
+          if(msg.status) span.classList.add("green")
+          else span.classList.remove("green")
+        }
+        if(msg.reply){
+          span.classList.add("blink");
+          setTimeout(()=>span.classList.remove("blink"),500)
+        }
+      });
+
+    </script>
+  </body>
+</html>

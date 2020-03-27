@@ -1,5 +1,8 @@
-const { app, BrowserWindow } = require('electron')
-const PubSub =require( 'pubsub-js')
+const { app, BrowserWindow, dialog } = require('electron')
+const PubSub = require( 'pubsub-js')
+const Store = require('electron-store');
+
+const {Bridge} = require('./bridge')
 
 function createWindow () {
   // Create the browser window.
@@ -11,8 +14,20 @@ function createWindow () {
       nodeIntegration: true
     }
   })
+  // and load the index.html of the app.
+  win.loadFile('index.html')
 
-  let test = require('./bridge')
+  const userPrefs = new Store();
+
+
+  let bridge = new Bridge()
+  bridge.start();
+  connectToBridge(win);
+
+};
+
+
+function connectToBridge(win){
   PubSub.subscribe("replies",(_,msg)=>{
     //console.log("repl",msg)
     win.webContents.send('lang', {reply:msg,status:true});
@@ -26,9 +41,6 @@ function createWindow () {
   PubSub.subscribe("queries",(_,msg)=>{
     win.webContents.send('clients',{query:msg.length});
   })
-
-  // and load the index.html of the app.
-  win.loadFile('index.html')
 }
 
 app.whenReady().then(createWindow)

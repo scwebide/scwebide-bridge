@@ -10,6 +10,7 @@
   "author": "elgiano@gmail.com",
   "license": "ISC",
   "dependencies": {
+    "electron-store": "^5.1.1",
     "express": "^4.17.1",
     "pubsub-js": "^1.8.0",
     "socket.io": "^2.3.0",

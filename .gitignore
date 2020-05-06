@@ -1,2 +1,4 @@
 node_modules/
 builds/
+dist/
+.DS_Store

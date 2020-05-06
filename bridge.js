@@ -35,12 +35,22 @@ class Bridge{
     return this.sclang_path
   }
 
+  startSclang(){
+    if(process.platform === 'darwin'){
+      this.sclang = spawn('./sclang',['-i','scwebide'],{
+        cwd:this.sclang_path.split('/').slice(0,-1).join('/')
+      })
+    }else{
+      this.sclang = spawn(this.sclang_path,['-i','scwebide'])
+    }
+  }
+
   start(){
     console.log("[Bridge] starting sclang")
     const sclang_path = this.getSclang()
     console.log("[Bridge] sclang path: ",sclang_path)
     try{
-      this.sclang = spawn(sclang_path,['-i','scwebide'])
+      this.startSclang()
     }catch(err){
       throw err
     }

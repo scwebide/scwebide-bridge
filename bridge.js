@@ -100,7 +100,7 @@ class Bridge{
   cacheReply(msg){
     this.sclang_cache.push(msg);
     if(this.sclang_cache.length > MAX_CACHED_REPLIES)
-      this.sclang_cache = sthis.clang_cache.slice(this.sclang_cache.length - MAX_CACHED_REPLIES)
+      this.sclang_cache = this.clang_cache.slice(this.sclang_cache.length - MAX_CACHED_REPLIES)
   }
 
   startServer(){

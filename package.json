@@ -11,7 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "electron-store": "^5.1.1",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "pubsub-js": "^1.8.0",
     "socket.io": "^2.4.0",
     "supercolliderjs": "^1.0.1"
